@@ -9,6 +9,6 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-       return new Response('Hello Toto');
+       return $this->render('@AnaxagoCore/Default/index.html.twig');
     }
 }

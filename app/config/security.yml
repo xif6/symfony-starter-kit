@@ -18,4 +18,8 @@ security:
             pattern:    ^/admin
             http_basic: ~
             provider: anaxago_provider
+            anonymous: ~
+            form_login:
+                login_path: login
+                check_path: login
 

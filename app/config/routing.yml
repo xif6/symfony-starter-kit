@@ -1,3 +1,5 @@
 anaxago_core:
     resource: "@AnaxagoCoreBundle/Resources/config/routing.yml"
     prefix:   /
+
+
