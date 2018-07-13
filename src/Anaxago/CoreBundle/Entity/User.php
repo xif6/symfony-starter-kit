@@ -54,7 +54,12 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     */
+    private $plainPassword;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
      */
     private $salt;
 
@@ -192,7 +197,6 @@ class User implements UserInterface
         return $this;
     }
 
-
     /**
      * @param array $roles
      *
@@ -218,6 +222,26 @@ class User implements UserInterface
     }
 
     /**
+     * @return string
+     */
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     *
+     * @return User
+     */
+    public function setPlainPassword(string $plainPassword): User
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    /**
      * @param string $salt
      *
      * @return User
@@ -228,6 +252,7 @@ class User implements UserInterface
 
         return $this;
     }
+
     /**
      * Removes sensitive data from the user.
      *

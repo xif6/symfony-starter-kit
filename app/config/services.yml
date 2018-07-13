@@ -28,3 +28,8 @@ services:
         resource: '../../src/Anaxago/CoreBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
+
+    _instanceof:
+        Doctrine\Common\EventSubscriber:
+            tags:
+                - { name: doctrine.event_subscriber, connection: default }
