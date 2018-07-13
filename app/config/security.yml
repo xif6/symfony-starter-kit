@@ -15,8 +15,6 @@ security:
 
     firewalls:
         main:
-            pattern:    ^/admin
-            http_basic: ~
             provider: anaxago_provider
             anonymous: ~
             form_login:
