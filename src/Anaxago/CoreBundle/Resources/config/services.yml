@@ -1,4 +1,1 @@
 services:
-#    anaxago_core.example:
-#        class: Anaxago\CoreBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]

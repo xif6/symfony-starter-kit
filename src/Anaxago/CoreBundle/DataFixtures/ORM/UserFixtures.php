@@ -27,7 +27,7 @@ class UserFixtures extends Fixture
             ->setUsername('Nephaste')
             ->setRoles(['ROLE_USER'])
             ->setSalt('toto')
-            ->setPassword('azerty');
+            ->setPlainPassword('azerty');
 
         $manager->persist($user);
 
@@ -37,7 +37,7 @@ class UserFixtures extends Fixture
             ->setUsername('Ricolas')
             ->setRoles(['ROLE_USER'])
             ->setSalt('toto')
-            ->setPassword('azerty');
+            ->setPlainPassword('azerty');
 
         $manager->persist($user);
 
@@ -47,7 +47,7 @@ class UserFixtures extends Fixture
             ->setUsername('Belotte')
             ->setRoles(['ROLE_USER'])
             ->setSalt('toto')
-            ->setPassword('azerty');
+            ->setPlainPassword('azerty');
 
         $manager->persist($user);
 
