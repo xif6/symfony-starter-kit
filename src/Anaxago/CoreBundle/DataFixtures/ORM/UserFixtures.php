@@ -19,37 +19,25 @@ class UserFixtures extends Fixture
      *
      * @param ObjectManager $manager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $user = new User();
-        $user->setFirstName('Stephane')
-            ->setLastName('Frenchie')
-            ->setUsername('Nephaste')
-            ->setRoles(['ROLE_USER'])
-            ->setSalt('toto')
-            ->setPlainPassword('azerty');
+        $investor = (new User())
+            ->setFirstName('John')
+            ->setLastName('Doe')
+            ->setEmail('john@local.com')
+            ->setPlainPassword('john');
 
-        $manager->persist($user);
+        $admin = (new User())
+            ->setFirstName('admin')
+            ->setLastName('anaxago')
+            ->setEmail('admin@local.com')
+            // because we like security
+            ->setPlainPassword('admin')
+            ->addRoles('ROLE_ADMIN')
+        ;
 
-        $user = new User();
-        $user->setFirstName('Nicolas')
-            ->setLastName('Picard')
-            ->setUsername('Ricolas')
-            ->setRoles(['ROLE_USER'])
-            ->setSalt('toto')
-            ->setPlainPassword('azerty');
-
-        $manager->persist($user);
-
-        $user = new User();
-        $user->setFirstName('Amine')
-            ->setLastName('DeMarrakech')
-            ->setUsername('Belotte')
-            ->setRoles(['ROLE_USER'])
-            ->setSalt('toto')
-            ->setPlainPassword('azerty');
-
-        $manager->persist($user);
+        $manager->persist($investor);
+        $manager->persist($admin);
 
         $manager->flush();
     }

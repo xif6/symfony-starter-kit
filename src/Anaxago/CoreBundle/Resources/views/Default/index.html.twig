@@ -4,35 +4,25 @@
     <section>
         <div class="container">
             <h1 class="my-5">Découvrez nos opportunités d'investissement</h1>
-            <div class="row">
+            {% for project in projects %}
+                {% if loop.first or loop.index0 % 3 == 0 %}
+                    <div class="row">
+                {% endif %}
                 <div class="col-md-4">
                     <div class="card">
                         <img class="card-img-top" src="https://picsum.photos/360/240/?random" alt="project">
                         <div class="card-body">
-                            <h5>Project name</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad animi architecto id ipsum, iste omnis optio praesentium repellendus? Commodi consectetur corporis culpa debitis hic nesciunt ratione similique tenetur voluptatem!</p>
+                            <h5>{{ project.title }}</h5>
+                            <p class="card-text">
+                                {{ project.description }}
+                            </p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img class="card-img-top" src="https://picsum.photos/360/240/?random" alt="project">
-                        <div class="card-body">
-                            <h5>Project name</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad animi architecto id ipsum, iste omnis optio praesentium repellendus? Commodi consectetur corporis culpa debitis hic nesciunt ratione similique tenetur voluptatem!</p>
-                        </div>
+                {% if not loop.first and (loop.last or loop.index % 3 == 0 ) %}
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img class="card-img-top" src="https://picsum.photos/360/240/?random" alt="project">
-                        <div class="card-body">
-                            <h5>Project name</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad animi architecto id ipsum, iste omnis optio praesentium repellendus? Commodi consectetur corporis culpa debitis hic nesciunt ratione similique tenetur voluptatem!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                {% endif %}
+            {% endfor %}
         </div>
     </section>
 {% endblock %}

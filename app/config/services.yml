@@ -29,6 +29,7 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    # automatically injecting correct tag on every EventSubscriber extending class
     _instanceof:
         Doctrine\Common\EventSubscriber:
             tags:

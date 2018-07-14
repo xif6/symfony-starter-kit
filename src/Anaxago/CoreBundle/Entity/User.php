@@ -44,7 +44,7 @@ class User implements UserInterface
      * @var array
      * @ORM\Column(type="array")
      */
-    private $roles;
+    private $roles = ['ROLE_USER'];
 
     /**
      * @var string
@@ -70,29 +70,23 @@ class User implements UserInterface
     private $username;
 
     /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $email;
+
+    /**
      * @return int
      */
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
-     *
-     * @return User
-     */
-    public function setId(int $id): User
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
-    public function getFirstName(): ?string
+    public function getFirstName()
     {
         return $this->firstName;
     }
@@ -112,9 +106,17 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getLastName(): ?string
+    public function getLastName()
     {
         return $this->lastName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->firstName.' '.$this->lastName;
     }
 
     /**
@@ -130,20 +132,8 @@ class User implements UserInterface
     }
 
     /**
-     * Returns the roles granted to the user.
      *
-     * <code>
-     * public function getRoles()
-     * {
-     *     return array('ROLE_USER');
-     * }
-     * </code>
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return (Role|string)[] The user roles
+     * @return string[] The user roles
      */
     public function getRoles()
     {
@@ -186,18 +176,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $username
-     *
-     * @return User
-     */
-    public function setUsername(string $username): User
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
      * @param array $roles
      *
      * @return User
@@ -205,6 +183,20 @@ class User implements UserInterface
     public function setRoles(array $roles): User
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @param string $role
+     *
+     * @return User
+     */
+    public function addRoles(string $role): User
+    {
+        if (!\in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
 
         return $this;
     }
@@ -224,7 +216,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getPlainPassword(): string
+    public function getPlainPassword()
     {
         return $this->plainPassword;
     }
@@ -254,13 +246,35 @@ class User implements UserInterface
     }
 
     /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return User
+     */
+    public function setEmail(string $email): User
+    {
+        // email will be our username
+        $this->username = $email;
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
      * Removes sensitive data from the user.
      *
      * This is important if, at any given point, sensitive information like
      * the plain-text password is stored on this object.
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
-        // TODO: Implement eraseCredentials() method.
+        $this->plainPassword = null;
     }
 }

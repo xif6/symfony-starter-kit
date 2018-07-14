@@ -1,7 +1,3 @@
 anaxago_core_homepage:
     path:     /
     defaults: { _controller: AnaxagoCoreBundle:Default:index }
-
-login:
-    path: /login
-    defaults: { _controller: AnaxagoCoreBundle:Security:login}

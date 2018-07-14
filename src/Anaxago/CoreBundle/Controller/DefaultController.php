@@ -2,6 +2,8 @@
 
 namespace Anaxago\CoreBundle\Controller;
 
+use Anaxago\CoreBundle\Entity\Project;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,10 +15,14 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller
 {
     /**
+     * @param EntityManagerInterface $entityManager
+     *
      * @return Response
      */
-    public function indexAction(): Response
+    public function indexAction(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('@AnaxagoCore/Default/index.html.twig');
+        $projects = $entityManager->getRepository(Project::class)->findAll();
+
+        return $this->render('@AnaxagoCore/Default/index.html.twig', ['projects' => $projects]);
     }
 }
