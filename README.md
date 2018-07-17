@@ -19,7 +19,7 @@ Les données préchargés sont
 | john@local.com  | john   | ROLE_USER    |
 | admin@local.com | admin | ROLE_ADMIN   | 
 
- - une liste des 3 projets
+ - une liste de 3 projets
  
 La connexion et l'enregistrement des utilisateurs sont déjà configurés et opérationnels
 
