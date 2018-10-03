@@ -8,6 +8,7 @@
 
 namespace Anaxago\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -74,6 +75,18 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $email;
+
+    /**
+     * @var int
+     *
+     * @ORM\OneToMany(targetEntity="ProjectUser", mappedBy="investor")
+     */
+    protected $projectUsers;
+
+    public function __construct()
+    {
+        $this->projectUsers = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -276,5 +289,38 @@ class User implements UserInterface
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;
+    }
+
+    /**
+     * @param ProjectUser $projectUser
+     *
+     * @return User
+     */
+    public function addProjectUser(ProjectUser $projectUser): self
+    {
+        if (!$this->projectUsers->contains($projectUser)) {
+            $this->projectUsers[] = $projectUser;
+            $projectUser->setInvestor($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ProjectUser $projectUser
+     *
+     * @return User
+     */
+    public function removeProjectUser(ProjectUser $projectUser): self
+    {
+        if ($this->projectUsers->contains($projectUser)) {
+            $this->projectUsers->removeElement($projectUser);
+            // set the owning side to null (unless already changed)
+            if ($projectUser->getInvestor() === $this) {
+                $projectUser->setInvestor(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -1,3 +1,7 @@
+anaxago_core_project:
+    resource: "@AnaxagoCoreBundle/Controller/ProjectController.php"
+    type:     annotation
+
 anaxago_core:
     resource: "@AnaxagoCoreBundle/Resources/config/routing.yml"
     prefix:   /

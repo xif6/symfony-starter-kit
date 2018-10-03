@@ -2,7 +2,9 @@
 
 namespace Anaxago\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Project
@@ -32,6 +34,7 @@ class Project
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Groups({"anonymous"})
      */
     private $title;
 
@@ -39,9 +42,30 @@ class Project
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     * @Groups({"anonymous"})
      */
     private $description;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @Groups({"anonymous"})
+     */
+    protected $amount;
+
+    /**
+     * @var int
+     *
+     * @ORM\OneToMany(targetEntity="ProjectUser", mappedBy="project")
+     */
+    protected $projectUsers;
+
+
+    public function __construct()
+    {
+        $this->projectUsers = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -123,6 +147,54 @@ class Project
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set amount
+     *
+     * @param int $amount
+     *
+     * @return Project
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return int
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+
+    public function addProjectUser(ProjectUser $projectUser): self
+    {
+        if (!$this->projectUsers->contains($projectUser)) {
+            $this->projectUsers[] = $projectUser;
+            $projectUser->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjectUser(ProjectUser $projectUser): self
+    {
+        if ($this->projectUsers->contains($projectUser)) {
+            $this->projectUsers->removeElement($projectUser);
+            // set the owning side to null (unless already changed)
+            if ($projectUser->getProject() === $this) {
+                $projectUser->setProject(null);
+            }
+        }
+
+        return $this;
     }
 }
 
