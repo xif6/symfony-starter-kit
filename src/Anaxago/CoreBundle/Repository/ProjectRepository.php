@@ -2,6 +2,8 @@
 
 namespace Anaxago\CoreBundle\Repository;
 
+use Anaxago\CoreBundle\Entity\User;
+
 /**
  * ProjectRepository
  *
@@ -10,4 +12,36 @@ namespace Anaxago\CoreBundle\Repository;
  */
 class ProjectRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findFounded()
+    {
+        $query = $this->createQueryBuilder('p')
+            ->leftJoin('p.projectUsers', 'pu')
+            ->groupBy('p.id')
+            ->having('p.amount <= COALESCE(SUM(pu.amount),0)')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findUnfounded()
+    {
+        $query = $this->createQueryBuilder('p')
+            ->leftJoin('p.projectUsers', 'pu')
+            ->groupBy('p.id')
+            ->having('p.amount > COALESCE(SUM(pu.amount),0)')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findByInvestor(User $user)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->innerJoin('p.projectUsers', 'pu')
+            ->where('pu.investor = :user')
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
