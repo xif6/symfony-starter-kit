@@ -3,6 +3,7 @@
 namespace Anaxago\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -20,6 +21,7 @@ class Project
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"anonymous", "investor"})
      */
     private $id;
 
@@ -34,7 +36,7 @@ class Project
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
-     * @Groups({"anonymous"})
+     * @Groups({"anonymous", "investor"})
      */
     private $title;
 
@@ -42,7 +44,7 @@ class Project
      * @var string
      *
      * @ORM\Column(name="description", type="text")
-     * @Groups({"anonymous"})
+     * @Groups({"anonymous", "investor"})
      */
     private $description;
 
@@ -50,7 +52,7 @@ class Project
      * @var int
      *
      * @ORM\Column(type="integer")
-     * @Groups({"anonymous"})
+     * @Groups({"anonymous", "investor"})
      */
     protected $amount;
 
@@ -58,6 +60,7 @@ class Project
      * @var int
      *
      * @ORM\OneToMany(targetEntity="ProjectUser", mappedBy="project")
+     * @Groups({"investor"})
      */
     protected $projectUsers;
 
@@ -173,6 +176,13 @@ class Project
         return $this->amount;
     }
 
+    /**
+     * @return Collection|ProjectUser[]
+     */
+    public function getProjectUsers(): Collection
+    {
+        return $this->projectUsers;
+    }
 
     public function addProjectUser(ProjectUser $projectUser): self
     {

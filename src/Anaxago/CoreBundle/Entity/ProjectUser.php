@@ -3,9 +3,16 @@
 namespace Anaxago\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity()
+ * @ORM\Table(
+ *    uniqueConstraints={
+ *        @ORM\UniqueConstraint(
+ *            columns={"investor_id", "project_id"})
+ *    }
+ * )
  */
 class ProjectUser
 {
@@ -13,6 +20,7 @@ class ProjectUser
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"anonymous", "investor"})
      */
     private $id;
 
@@ -28,6 +36,7 @@ class ProjectUser
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"investor"})
      */
     private $amount;
 
